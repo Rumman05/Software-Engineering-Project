@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChildMinder Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><img src="images/childminder_logo.png" alt="Childminder Logo" class="logo"></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#add-child">Add or Select Child</a></li>
+            <li><a href="#feeding-tracker">Feeding & Eating</a></li>
+            <li><a href="#sleep-duration">Sleep Duration</a></li>
+            <li><a href="#diaper-changes">Diaper Changes</a></li>
+            <li><a href="#meds-tracking">Medications</a></li>
+            <li><a href="#daily-report">Daily Report</a></li>
+            <li><a href="#child-growth">Child Growth</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1>Welcome to ChildMinder</h1>
+    </section>
+
+    <section id="add-child">
+        <h2>Add or Select a Child</h2>
+
+        <!-- Child Selection -->
+        <div class="child-selection">
+            <h3>Select a Child</h3>
+            <select id="child-select" onchange="updateChildData()">
+                <option value="" disabled selected>Select a Child</option>
+                <!-- Options will be populated by JavaScript -->
+            </select>
+        </div>
+
+        <!-- Add Child Form -->
+        <div class="add-child-form">
+            <h3>Add a New Child</h3>
+            <form id="add-child-form" onsubmit="addChild(event)">
+                <label for="child-name">Name:</label>
+                <input type="text" id="child-name" name="child-name" placeholder="Enter child's name" required>
+
+                <label for="child-sex">Sex:</label>
+                <select id="child-sex" name="child-sex" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                
+                </select>
+
+                <label for="child-dob">Date of Birth:</label>
+                <input type="date" id="child-dob" name="child-dob" required>
+
+                <button type="submit">Add Child</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="feeding-tracker">
+        <h2>Track Child's Feeding & Eating</h2>
+
+        <!-- Feeding Input Section -->
+        <div class="feeding-input-section">
+            <h3>Feeding Start</h3>
+            <form id="feeding-form">
+                <label for="feeding-start">Feeding Start Time:</label>
+                <input type="datetime-local" id="feeding-start" name="feeding-start" required>
+
+                <label for="feeding-type">Type of Feeding:</label>
+                <select id="feeding-type" name="feeding-type" required>
+                    <option value="Formula">Formula</option>
+                    <option value="Cow Milk">Cow Milk</option>
+                    <option value="Breast Milk">Breast Milk</option>
+                    <option value="Solids">Solids</option>
+                </select>
+
+                <!-- Solids Input -->
+                <div class="solids-input" id="solids-input">
+                    <label for="solids-food">What did the child eat?</label>
+                    <input type="text" id="solids-food" name="solids-food" placeholder="e.g., pasta, porridge">
+                </div>
+
+                <label for="feeding-amount">Amount of Food:</label>
+                <input type="number" id="feeding-amount" name="feeding-amount" placeholder="Enter amount in ml (for liquids)" step="0.1">
+
+                <label for="portion-size">Portion Size (for solids):</label>
+                <select id="portion-size" name="portion-size">
+                    <option value="None">None</option>
+                    <option value="Some">Some</option>
+                    <option value="Half">Half</option>
+                    <option value="Most">Most</option>
+                    <option value="All">All</option>
+                </select>
+
+                <button type="submit">Add Feeding Entry</button>
+            </form>
+        </div>
+
+        <!-- Feeding Insights Section -->
+        <div class="feeding-insights">
+            <h3>Feeding Insights</h3>
+            <p id="daily-feeding">Daily Feeding Summary: -- ml</p>
+            <p id="solid-food-intake">Solid Food Intake: --</p>
+        </div>
+
+        <!-- Placeholder for Graphs -->
+        <div class="chart-section">
+            <h3>Feeding Trends</h3>
+            <div class="chart-container" id="feeding-chart">
+                <p>Graph will display here.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sleep-duration">
+        <h2>Sleep Duration</h2>
+        
+        <!-- Sleep Duration Input Section -->
+        <div class="sleep-input-section" style="margin-bottom: 20px;">
+            <form id="sleep-duration-form">
+                <label for="sleep-time">Sleep Start:</label>
+                <input type="time" id="sleep-time" name="sleep-time" required>
+    
+                <label for="wake-time" style="margin-top: 10px;">Wake Time:</label>
+                <input type="time" id="wake-time" name="wake-time" required>
+    
+                <button type="submit" style="margin-top: 20px;">Log Sleep</button>
+            </form>
+        </div>
+        
+        <!-- Sleep Duration Statistics Section -->
+        <div class="sleep-duration-stats" style="margin-bottom: 20px;">
+            <h3>Sleep Duration Statistics</h3>
+            <p id="total-sleep-duration">Total Sleep Duration: --</p>
+            <p id="average-sleep-duration">Average Sleep Duration: --</p>
+        </div>
+    </section>
+    
+
+    <section id="diaper-changes">
+        <h2>Record Diaper Change</h2>
+    
+        <!-- Diaper Change Input Section -->
+        <div class="diaper-input-section" style="margin-bottom: 20px;">
+            <form id="diaper-form">
+                <label for="diaper-time">Time of Diaper Change:</label>
+                <input type="datetime-local" id="diaper-time" name="diaper-time" required>
+    
+                <label for="diaper-type" style="margin-top: 10px;">Select Nappy Type:</label>
+                <select id="diaper-type" name="diaper-type" required>
+                    <option value="wet">Wet (Pee)</option>
+                    <option value="soiled">Soiled (Poo)</option>
+                    <option value="mixed">Mixed (Pee + Poo)</option>
+                    <option value="dry">Dry</option>
+                </select>
+    
+                <button type="submit" style="margin-top: 20px;">Add Diaper Change</button>
+            </form>
+        </div>
+    
+        <!-- Diaper Change Statistics Section -->
+        <div class="diaper-stats" style="margin-bottom: 20px;">
+            <h2>Diaper Change Statistics</h2>
+            <p id="daily-diaper-count">Total Diaper Changes Today: --</p>
+            <p id="wet-diapers">Wet Diapers: --</p>
+            <p id="soiled-diapers">Soiled Diapers: --</p>
+            <p id="mixed-diapers">Mixed Diapers: --</p>
+            <p id="dry-diapers">Dry Diapers: --</p>
+        </div>
+    
+        <!-- Diaper Change Graph Section -->
+        <div class="chart-section" style="margin-left: -20px;">
+            <h2>Diaper Change Graphs --</h2>
+            <div class="chart-container" id="diaper-chart">
+                <!-- Placeholder for Graph -->
+                <p>Graph will display here.</p>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+
+    <section id="meds-tracking">
+        <h2>Medication Tracking</h2>
+        <form id="medication-form">
+            <label for="medication-name">Medication Name:</label>
+            <input type="text" id="medication-name" name="medication-name" placeholder="e.g., Antibiotic" required>
+
+            <label for="medication-dose">Dose (ml):</label>
+            <input type="number" id="medication-dose" name="medication-dose" placeholder="e.g., 5 ml" step="0.1" required>
+
+            <label for="medication-frequency">Frequency (per day):</label>
+            <input type="number" id="medication-frequency" name="medication-frequency" placeholder="e.g., 3 times" required>
+
+            <label for="medication-start-time">Next Dose Time:</label>
+            <input type="datetime-local" id="medication-start-time" name="medication-start-time" required>
+
+            <button type="submit">Set Medication Plan</button>
+        </form>
+         <!-- Insights and Graphs -->
+    <div class="medication-insights" style="margin-top: 20px;">
+        <h3>Medication Insights</h3>
+        <p id="medication-stats">Total Medications: 0</p>
+    </div>
+
+    <div class="temperature-insights" style="margin-top: 20px;">
+        <h3>Temperature Insights</h3>
+        <p id="temperature-stats">Average Temperature: 0°C</p>
+    </div>
+    </section>
+
+   
+
+    <section id="daily-report">
+        <h2>Daily Report</h2>
+        <p>Generate and view a summary of all logged activities.</p>
+        <button>Generate Report</button>
+    </section>
+
+    <section id="child-growth">
+        <h2>Child Growth Tracking</h2>
+        <div class="growth-tracking-section">
+            <h2>Track Weight and Height</h2>
+
+            <div class="input-section">
+                <div class="input-field">
+                    <label for="weight">Weight:</label>
+                    <input type="number" id="weight" placeholder="Enter weight">
+                    <select id="weight-unit">
+                        <option value="kg">kg</option>
+                        <option value="lb">lb</option>
+                    </select>
+                    <input type="date" id="weight-date">
+                </div>
+
+                <div class="input-field">
+                    <label for="height">Height:</label>
+                    <input type="number" id="height" placeholder="Enter height">
+                    <select id="height-unit">
+                        <option value="cm">cm</option>
+                        <option value="ft/in">ft/in</option>
+                    </select>
+                    <input type="date" id="height-date">
+                </div>
+            </div>
+
+            <button class="submit-btn">Submit Growth Data</button>
+
+            <div class="growth-graph-section">
+                <h3>Growth Graphs</h3>
+                <div class="graph-container">
+                    <div id="weight-graph">
+                        <h4>Weight vs Age</h4>
+                        <p>Graph will appear here (Weight vs Age)</p>
+                    </div>
+                    <div id="height-graph">
+                        <h4>Height vs Age</h4>
+                        <p>Graph will appear here (Height vs Age)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="percentile-info">
+                <h3>Percentile Information</h3>
+                <p><strong>Weight Percentile:</strong> 56% (22 months, 12.15 kg)</p>
+                <p><strong>Height Percentile:</strong> 64% (22 months, 82 cm)</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 ChildMinder. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
